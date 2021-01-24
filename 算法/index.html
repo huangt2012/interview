@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序算法</title>
+</head>
+<body>
+    <div>测试排序算法</div>
+</body>
+<script src="./utils.js"></script>
+<script src="./冒泡排序.js"></script>
+<script>
+    const arr = generateRandomArray(1000, 0, 1000)
+    testSort(bubbleSort, [...arr], 'bubbleSort')
+</script>
+</html>
