@@ -15,13 +15,15 @@
 <script src="./归并排序.js"></script>
 <script src="./快速排序.js"></script>
 <script>
-    const arr = generateRandomArray(1000000, 0, 5000)
+    const arr = generateRandomArray(100000, 0, 2)
     console.log(arr)
     // testSort(bubbleSort, [...arr], 'bubbleSort')
     // testSort(bubbleSort2, [...arr], 'bubbleSort2')
     // testSort(selectionSort, [...arr], 'selectionSort')
     // testSort(insertionSort, [...arr], 'insertionSort')
     testSort(mergeSort, [...arr], 'mergeSort')
-    testSort(quickSort, [...arr], 'quickSort')
+    // testSort(quickSort, [...arr], 'quickSort')
+    testSort(quickSort2, [...arr], 'quickSort2')
+    testSort(quickSort3Ways, [...arr], 'quickSort3Ways')
 </script>
 </html>
