@@ -1,12 +1,21 @@
 function insertionSort(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    // 寻找元素arr[i]合适的插入位置
-    const curr = arr[i]
-    let prevIndex = i
-    while (prevIndex > 0 && arr[prevIndex - 1] > curr) {
-      arr[prevIndex] = arr[prevIndex - 1]
-      prevIndex--
+  insertionSortRange(arr, 0, arr.length - 1)
+}
+
+/**
+ * 对 arr[l...r]范围的数组进行插入排序
+ * @param {*} arr 
+ * @param {*} l 
+ * @param {*} r 
+ */
+function insertionSortRange(arr, l, r) {
+  for (let i = l + 1; i <= r; i++) {
+    const e = arr[i]
+    let j = i
+    while (j > l && arr[j - 1] > e) {
+      arr[j] = arr[j - 1]
+      j--
     }
-    arr[prevIndex] = curr
+    arr[j] = e
   }
 }
