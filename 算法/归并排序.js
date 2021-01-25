@@ -69,3 +69,20 @@ function __mergeSort(arr, l, r) {
 function mergeSort(arr) {
   __mergeSort(arr, 0, arr.length - 1)
 }
+
+/**
+ * 自底向上的归并排序
+ * @param {*} arr 
+ */
+function mergeSortBU(arr) {
+  // 第一轮每两个元素归并
+  // 第二轮每四个元素归并
+  for (let sz = 1; sz <= arr.length; sz += sz) {
+    // 对 arr[i...i + sz -1]和arr[i + sz...i+ 2*sz -1] 进行归并
+    // i + sz < arr.length 确保有两个数组
+    // Math.min(i + 2 * sz - 1, arr.length - 1) 确保数组不越界
+    for (let i = 0; i + sz < arr.length; i += sz + sz) { 
+      __merge(arr, i, i + sz - 1, Math.min(i + 2 * sz - 1, arr.length - 1))
+    }
+  }
+}
