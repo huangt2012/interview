@@ -1,0 +1,12 @@
+function insertionSort(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    // 寻找元素arr[i]合适的插入位置
+    const curr = arr[i]
+    let prevIndex = i - 1
+    while (prevIndex >= 0 && arr[prevIndex] > curr) {
+      arr[prevIndex + 1] = arr[prevIndex]
+      prevIndex--
+    }
+    arr[prevIndex + 1] = curr
+  }
+}

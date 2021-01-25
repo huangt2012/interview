@@ -62,7 +62,7 @@ function testSort(sort, arr, sortName) {
     console.time(sortName)
     sort(arr)
     console.timeEnd(sortName)
-    if (arr.length < 100) {
+    if (arr.length <= 1000) {
         console.log(arr)
     }
 }
