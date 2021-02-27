@@ -49,9 +49,9 @@ function __mergeSort(arr, l, r) {
   //   return
   // }
   if (r - l <= 15) {
-    // 当数组数量少到一定程度时，插入排序要比归并排序快，时间复杂度前面是由系数的
+    // 当数组数量少到一定程度时，插入排序要比归并排序快，时间复杂度前面是有系数的
     // 当数量少到一定程度时，调用插入排序进行排序
-    insertionSortRange(arr, l, r)
+    insertionSort(arr, l, r)
     return
   }
   const mid = Math.floor((l + r) / 2) // 可能存在的问题，当l和r都很大时，l + r可能会产生溢出

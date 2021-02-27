@@ -48,7 +48,7 @@ function __quickSort(arr, l, r) {
   //   return
   // }
   if (r - l <= 15) {
-    insertionSortRange(arr, l, r)
+    insertionSort(arr, l, r)
     return
   }
   const p = __partition(arr, l, r)
@@ -87,7 +87,7 @@ function __partition2(arr, l, r) {
 // 对arr[l...r]部分进行快速排序
 function __quickSort2(arr, l, r) {
   if (r - l <= 15) {
-    insertionSortRange(arr, l, r)
+    insertionSort(arr, l, r)
     return
   }
   const p = __partition2(arr, l, r)
@@ -110,7 +110,7 @@ function quickSort2(arr) {
  */
 function __quickSort3Ways(arr, l, r) {
   if (r - l <= 15) {
-    insertionSortRange(arr, l, r)
+    insertionSort(arr, l, r)
     return
   }
 
