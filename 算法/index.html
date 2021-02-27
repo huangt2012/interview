@@ -17,6 +17,7 @@
 <script src="./归并排序.js"></script>
 <script src="./快速排序.js"></script>
 <script src="../JS基础/实现深拷贝.js"></script>
+<script src="../JS基础/实现Promise.js"></script>
 <script>
     // const arr = generateRandomArray(100000, 0, 2)
     // console.log(arr)
@@ -28,154 +29,20 @@
     // // testSort(quickSort, [...arr], 'quickSort')
     // testSort(quickSort2, [...arr], 'quickSort2')
     // testSort(quickSort3Ways, [...arr], 'quickSort3Ways')
-    class Bromise {
-        constructor(excutorCallback) {
-            this.status = 'pending'
-            this.value = undefined
-            this.fulfillArr = []
-            this.rejectedArr = []
-
-            let resolveFn = (result) => {
-                if (this.status !== 'pending') return
-                let timer = setTimeout(() => {
-                    this.status = 'fulfilled'
-                    this.value = result
-                    this.fulfillArr.forEach((item) => item(this.value))
-                }, 0)
-            }
-
-            let rejectFn = (result) => {
-                if (this.status !== 'pending') return
-                let timer = setTimeout(() => {
-                    this.status = 'rejected'
-                    this.value = result
-                    this.rejectedArr.forEach((item) => item(this.value))
-                }, 0)
-            }
-
-            try {
-                excutorCallback(resolveFn, rejectFn)
-            } catch (error) {
-                // 有异常执行rejectFn
-                rejectFn(error)
-            }
-        }
-
-        then(fulfilledCallBack, rejectedCallBack) {
-            typeof fulfilledCallBack !== 'function' ? fulfilledCallBack = result => result : null
-            typeof rejectedCallBack !== 'function' ? rejectedCallBack = reason => {
-                throw new Error(reason instanceof Error ? reason.message : reason);
-            } : null
-
-            return new Bromise((resolve, reject) => {
-                this.fulfillArr.push(() => {
-                    try {
-                        let x = fulfilledCallBack(this.value)
-                        x instanceof Bromise ? x.then(resolve, reject) : resolve(x)
-                    } catch (error) {
-                        reject(error)
-                    }
-                })
-                this.rejectedArr.push(() => {
-                    try {
-                        let x = rejectedCallBack(this.value)
-                        x instanceof Bromise ? x.then(resolve, reject) : resolve(x)
-                    } catch (error) {
-                        reject(error)
-                    }
-                })
-            })
-        }
-
-
-        catch(rejectedCallBack) {
-            this.then(null, rejectedCallBack)
-        }
-        static all(promiseArr) {
-            let index = 0
-            let result = []
-            return new Bromise((resolve, reject) => {
-                for (let i = 0; i < promiseArr.length; i++) {
-                    promiseArr.then((value) => {
-                        index++
-                        result[i] = value
-                        if (index === promiseArr.length) {
-                            resolve(result)
-                        }
-                    }, reject)
-                }
-            })
-        }
-
-        static race(promises) {
-            return new Bromise((resolve, reject) => {
-                if (promises.length) {
-                    for (let i = 0; i < promises.length; i++) {
-                        promises.then((value) => {
-                            resolve(value)
-                            return
-                        }, reject)
-                    }
-                } else {
-                    return
-                }
-            })
-        }
-
-        static resolve(value) {
-            if (value instanceof Bromise) return value
-            return new Bromise(resolve => resolve(value))
-        }
-        static reject(value) {
-            if (value instanceof Bromise) return value
-            return new Bromise((resolve, reject) => reject(value))
-        }
-
-    }
-
-    Function.prototype.bind = function (context, ...args) {
-        if (typeof this !== "function") {
-            throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
-        }
-        const self = this
-        const FNOP = function () { }
-        const fbound = function () {
-            self.apply(
-                this instanceof self ? this : context,
-                args.concat(Array.prototype.slice.call(arguments))
-            )
-        }
-        FNOP.prototype = this.prototype
-        fbound.prototype = new FNOP()
-        return fbound
-    }
-    function showName() {
-        console.log(this.name)
-    }
-    const name = 'hh'
-    const person = { name: 'tt' }
-    showName.bind(person, 11)()
-
-    const tareget = {
-        name: '111',
-        age: 11,
-        reg: new RegExp('abc', 'i'),
-        date: new Date(),
-        boolead: true,
-        fn1: () => { console.log(111) },
-        fn2: function(name) {
-            console.log(name)
+    const p = new Bromise((resolve, reject) => {
+        setTimeout(() => {
+            const random = Math.random()
+            random > 0.5 ? resolve(random) : reject(random)
+        }, 100)
+    }).then(
+        (value) => {
+            console.log(value)
         },
-        object: {name: 'string'},
-        arr: [2,3],
-        set: new Set([2,3]),
-        map: new Map()
-    }
-    const cloneTarget = deepClone(tareget)
-    cloneTarget.object.name = 'change'
+        (error) => {
+            console.log(error, 'reject ')
+        }
+    )
 
-    console.log(cloneTarget, tareget)
-    console.log(cloneTarget.fn2('hhh'))
 </script>
 
 </html>
