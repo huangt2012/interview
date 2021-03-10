@@ -19,20 +19,23 @@
  function throttle2(fn, interval) {
      let last = 0
      return function(...args) {
+         const context = this
          let now = new Date()
          if (now - last < interval) return
-         fn.apply(this, args)
+         fn.apply(context, args)
          last = now
      }
  }
 
 /**
 * 防抖的思想：频繁触发只执行最后一次
+每次事件触发则删除原来的定时器，建立新的定时器
+类似于王者荣耀的回城按钮，频繁的点击只有最后一次生效
 */
 
 function debounce(fn, delay) {
     let timer = null
-    return function (...args) {
+    return function(...args) {
         const context = this
         if (timer) clearTimeout(timer)
         timer = setTimeout(() => {
