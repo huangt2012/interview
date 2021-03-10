@@ -40,7 +40,7 @@ function Bromise(executor) {
             self.status = REJECTED
             self.error = error
             // self.onRejected(self.error)
-            self.onRejectedCallBacks.forEach((callback) => callback(self.value))
+            self.onRejectedCallBacks.forEach((callback) => callback(self.error))
         }, 0)
     }
     executor(resolve, reject)
@@ -104,7 +104,7 @@ Bromise.prototype.then = function (onFulFilled, onRejected) {
         })
     } else {
         // onRejected(this.error)
-        return bridgePromise = new MyPromise((resolve, reject) => {
+        return bridgePromise = new Bromise((resolve, reject) => {
             try {
                 // 状态变为失败，会有相应的 self.error
                 let x = onRejected(self.error);
