@@ -54,7 +54,7 @@ function cloneWithJSON(target) {
  * 2.拷贝特殊对象
  * 3.拷贝函数
  */
-const isObject = (target) => typeof target === 'object' || typeof target === 'function'
+const isObject = (target) => (typeof target === 'object' || typeof target === 'function') && target !== null
 const getType = (target) => Object.prototype.toString.call(target)
 const canTraverse = new Set([
     '[object Map]',
@@ -81,19 +81,30 @@ const handleFunc = (target) => {
     // 所以只需要处理普通函数即可
     // 如何区分箭头函数和普通函数 =》 使用原型，箭头函数没有原型
     if (!target.prototype) return target
-    const bodyReg = /(?<={)(.|\n)+(?=})/m
+    // const bodyReg = /(?<={)(.|\n)+(?=})/m
+    // const paramReg = /(?<=\().+(?=\)\s+{)/
+    // const funcString = target.toString()
+    // // 分别匹配参数和函数体
+    // const param = paramReg.exec(funcString)
+    // const body = bodyReg.exec(funcString)
+    // if (!body) return null
+    // if (param) {
+    //     const paramArr = param[0].split(',')
+    //     return new Function(...paramArr, body[0])
+    // } else {
+    //     return new Function(body[0])
+    // }
+    const bodyReg = /(?={)(.|\n)+(?=})/m
     const paramReg = /(?<=\().+(?=\)\s+{)/
-    const funcString = target.toString()
-    // 分别匹配参数和函数体
-    const param = paramReg.exec(funcString)
-    const body = bodyReg.exec(funcString)
+    const funcStr = target.toString()
+    const params = paramReg.exec(funcStr)
+    const body = bodyReg.exec(funcStr)
     if (!body) return null
-    if (param) {
-        const paramArr = param[0].split(',')
-        return new Function(...paramArr, body[0])
-    } else {
-        return new Function(body[0])
+    if (params) {
+        const parmasArr = params[0].split(',')
+        return new Function(...parmasArr, body[0])
     }
+    return new Function(body[0])
 }
 
 const handleNotTraverse = (target, type) => {

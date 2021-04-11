@@ -5,10 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>排序算法</title>
+    <style>
+        .container {
+            width: 800px;
+            height: 200px;
+
+        }
+
+        .left {
+            font-size: 14px;
+            background: red;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+        }
+
+        .right {
+            font-size: 14px;
+            background: blue;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+
+        }
+    </style>
 </head>
 
 <body>
-    <div>测试排序算法</div>
+    <div class="outer">
+        <div class="inner">
+            <div class="box">A</div>
+        </div>
+    </div>
 </body>
 <script src="./utils.js"></script>
 <script src="./冒泡排序.js"></script>
@@ -16,32 +44,21 @@
 <script src="./插入排序.js"></script>
 <script src="./归并排序.js"></script>
 <script src="./快速排序.js"></script>
-<script src="../JS基础/实现深拷贝.js"></script>
+<!-- <script src="../JS基础/实现深拷贝.js"></script> -->
 <script src="../JS基础/实现Promise.js"></script>
 <script>
-    // const arr = generateRandomArray(100000, 0, 2)
-    // console.log(arr)
-    // testSort(bubbleSort, [...arr], 'bubbleSort')
-    // testSort(bubbleSort2, [...arr], 'bubbleSort2')
-    // testSort(selectionSort, [...arr], 'selectionSort')
-    // testSort(insertionSort, [...arr], 'insertionSort')
-    // testSort(mergeSort, [...arr], 'mergeSort')
-    // // testSort(quickSort, [...arr], 'quickSort')
-    // testSort(quickSort2, [...arr], 'quickSort2')
-    // testSort(quickSort3Ways, [...arr], 'quickSort3Ways')
-    const p = new Bromise((resolve, reject) => {
-        setTimeout(() => {
-            const random = Math.random()
-            random > 0.5 ? resolve(random) : reject(random)
-        }, 100)
-    }).then(
-        (value) => {
-            console.log(value)
-        },
-        (error) => {
-            console.log(error, 'reject ')
+    function climbStairs(n) {
+        if (n === 0 || n === 1) return 1
+        let prev = 1
+        let curr = 1
+        for (let i = 2; i <= n; i++) {
+            let temp = prev + curr
+            prev = curr
+            curr = temp
         }
-    )
+        return curr
+    }
+    console.log(climbStairs(4))
 
 </script>
 
