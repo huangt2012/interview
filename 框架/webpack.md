@@ -56,7 +56,8 @@
     - 7.输出完成：根据配置中的output确定输出路径和名称，把文件内容写出到文件系统中
 
     ## 6.webpack热更新的原理
-    热更新又称为热替换（hot module replacement，HMR),基于**webpack-dev-server**。当修改了代码并保存后，会重新打包文件，并将改动的模块发送到浏览器，浏览器用新的模块替换旧的模块，从而实现局部刷新。  
+    热更新又称为热替换（hot module replacement，HMR),基于**webpack-dev-server**。当修改了代码并保存后，会重新打包文件，并将改动的模块发送到浏览器，浏览器用新的模块替换旧的模块，从而实现局部刷新。 
+    https://www.jianshu.com/p/d37475f1bae1 
 
     ## 7.用webpack来优化前端性能
     用webpack来优化前端性能，是指优化webpack的输出结果，让其在浏览器高效运行
