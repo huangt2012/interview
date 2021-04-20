@@ -263,6 +263,12 @@
         }
         return obj
     }
+    const target = document.querySelector('title')
+    const config = { characterData: true, subtree: true, childList: true  }
+    const observer = new MutationObserver((mutations) => {
+        console.log(mutations[0].target)
+    }, config)
+    observer.observe(target)
 
     Function.prototype.bind = function (thisArg, ...args) {
         if (typeof this !== 'function') {
@@ -272,8 +278,6 @@
         let fbound = function () {
             self.apply(this instanceof self ? this : thisArg, args.concat(Array.from(arguments)))
         }
-        fbound.prototype = Object.create(self.prototype)
-        return fbound
     }
     Function.prototype.call = function (context, ...args) {
         context = context || window
