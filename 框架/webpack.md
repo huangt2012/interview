@@ -2,6 +2,7 @@
 - 参考资料：
     - https://www.jianshu.com/p/216ed82a3e49
     - https://www.jianshu.com/p/4e86878f2271
+    - https://juejin.cn/post/6844904094281236487
 ## 1.什么是webpack，与grunt、gulp的区别
 - **webpack是基于模块化打包的工具**
     - webpack是静态模块打包工具。在webpack看来，项目中所有的资源都是模块。自动化处理模块，从入口开始，递归遍历所有直接依赖或间接依赖的模块，并在内部构建能够映射项目所需模块的依赖图（dependency graph），然后将所有模块打包生成一个或多个bundle文件。
@@ -30,8 +31,10 @@
 - 常见的Plugin
     - define-plugin：定义环境变量
     - html-webpack-plugin：简化html创建
-    - uglifyjs-webpack-plugin：压缩es6代码
+    - uglifyjs-webpack-plugin：不支持压缩es6代码
+    - terser-webpack-plugin： 支持压缩es6（webpack4）
     - mini-css-extract-plugin：css提取到单独的文件中，支持按需加载
+    - webpack-parallel-uglify-plugin: 多进程执行代码压缩，提升构建速度
 - 不同点：
     - **作用不同**  
     Loader直译为加载器。webpack将一切资源视为模块，但是webpack原生只能解析js文件的，如果要将其他的文件也打包的话，就需要用到loader。所以loader的作用是让webpack有了加载和解析非JavaScript文件的能力。    
@@ -69,9 +72,33 @@
     （1）多入口的情况下使用CommonsChunkPlugin来提取公共代码  
     （2）通过externals配置来提取常用库。将不怎么需要更新的库脱离bundle打包，从而减少打包时间。比如jquery，直接使用script标签引入  
     （3）利用DllPlugin和DllReferencePlugin来预编译资源模块。通过DllPlugin将引用的但不会修改的代码进行预编译，再通过DllReferencePlugin将预编译的资源加载进来  
-    （4）使用Happypack实现多线程编译  
+    （4）使用Happypack实现多进程/多实例编译  
     （5）使用webpack-uglify-parallel来加速uglify-plugin的压缩速度。它的核心就是采用多核并行压缩来提升压缩速度  
     （6）使用Tree-shaking和Scope Hoisting来剔除多余的代码
+
+
+    - 使用高版本的Webpack和Node.js
+    - 多进程/多实例构建：HappyPack、thread-loader
+    - 压缩代码：
+      - 多进程并行压缩
+        - webpack-parallel-uglify-plugin
+        - uglifyjs-webpack-plugin开启parallel参数
+        - terser-webpack-plugin开启parallel参数
+      - 通过mini-css-extract-plugin提取Chunk中的css到单独文件
+    - 图片压缩
+      - 使用基于Node的imagemin进行压缩
+    - 缩小打包作用域
+      - exclude、include确定规则范围
+      - resolve.modules指明第三方模块的绝对路径
+    - 提取页面公共资源
+      - 基础包分离
+        - 使用html-webpack-externals-plugin,将基础包通过CDN引入，不打入bundle包
+        - 使用splitChunksPlugin进行公共脚本、基础包。公共文件分离
+    - DLL
+      - 使用DllPlugin进行分包
+    - 充分利用缓存提升二次构建速度
+      - babel-loader开启缓存
+    - Tree shaking
     ## 9.如何配置单页应用，多页应用
     单页应用可以看做是webpack的标准模式，只需要在entry中指定对应的入口文件。  
     多页应用可以使用webpack的AutoWebPlugin来完成简单的自动化配置，但前提是项目的目录结构需要符合它的预设。
