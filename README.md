@@ -21,3 +21,7 @@
    
 - meta标签知识
  - https://mp.weixin.qq.com/s/mjixpfvmJdRwRtHin1MGvA
+ 
+ 
+- npm 相关
+ - package.json 指南: https://pengfeixc.com/blogs/javascript/package-json
